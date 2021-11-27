@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/vendor.dart';
+import '../product/vendor_item.dart';
 
 class VendorProduct extends StatefulWidget {
 
@@ -47,7 +48,16 @@ class _VendorProductState extends State<VendorProduct> {
                     fontFamily: "IRANSans" ,
                     color: Colors.white30
                   ),
-              )
+              ) ,
+
+              const SizedBox(height: 15,) ,
+
+              Column(
+                children: widget.vendor.items.map((item) {
+                  return VendorItem(item: item);
+                }).toList(),
+              ) ,
+
             ],
           ),
         ),
