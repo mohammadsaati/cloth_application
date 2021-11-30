@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/item.dart';
+import '../../widgets/add_to_cart_button.dart';
 
 class VendorItem extends StatefulWidget {
 
@@ -72,6 +73,10 @@ class _VendorItemState extends State<VendorItem> {
                   ),
                 ) ,
 
+                const SizedBox(width: 40,) ,
+
+                AddToCartButton(productId: widget.item.id , stock: widget.item.stock) ,
+
               ],
             ) ,
             
@@ -82,15 +87,32 @@ class _VendorItemState extends State<VendorItem> {
 
         const SizedBox( height: 20, ) ,
 
-        // Show that item price
-        Text(
-          widget.item.price.toString()+"\$" ,
-          style: const TextStyle(
-            fontSize: 15 ,
-            color: Colors.grey
-          ),
+        Row(
+          children: [
+            // Show that item price
+            Text(
+              "stock : "+widget.item.stock.toString() ,
+              style: const TextStyle(
+                  fontSize: 15 ,
+                  color: Colors.grey
+              ),
 
-        ) ,
+            ) ,
+
+            const SizedBox(width: 50,) ,
+
+            //show stock
+            Text(
+               widget.item.price.toString()+"\$" ,
+              style: const TextStyle(
+                  fontSize: 15 ,
+                  color: Colors.grey
+              ),
+
+            ) ,
+
+          ],
+        )
         
       ],
       
