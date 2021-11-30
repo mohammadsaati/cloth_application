@@ -53,7 +53,7 @@ class ProductProvider with ChangeNotifier
             return  Product(
                 id: body["id"],
                 name: body["name"],
-                description: "",
+                description: body["description"],
                 slug: body["slug"],
                 category: "",
                 code: 0,
