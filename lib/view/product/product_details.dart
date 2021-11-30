@@ -84,7 +84,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
        SingleChildScrollView(
          child: Column(
-           crossAxisAlignment: CrossAxisAlignment.end,
+           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
             SizedBox(
@@ -168,7 +168,7 @@ class _ProductDetailsState extends State<ProductDetails> {
            const Padding(
                padding: EdgeInsets.symmetric(vertical: 5.0 , horizontal: 10.0) ,
                 child:  Text(
-                  "فروشندگان" ,
+                  "Seller" ,
                   style: TextStyle(
                       fontFamily: "IRANSans" ,
                       fontWeight: FontWeight.bold ,
@@ -186,7 +186,33 @@ class _ProductDetailsState extends State<ProductDetails> {
               }).toList(),
             ) ,
 
-            const SizedBox(height: 10,) ,
+            const SizedBox(height: 20,) ,
+
+           const Padding(
+             padding:  EdgeInsets.all(15) ,
+             child: Text(
+               "Description" ,
+
+               style: TextStyle(
+                 fontWeight: FontWeight.bold ,
+                 fontSize: 18
+               ),
+             ),
+           ) ,
+
+            const SizedBox(height: 5,) ,
+
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child:  Text(
+                product.description ,
+                maxLines: 20,
+                style: const TextStyle(
+                    color: Colors.grey
+                ),
+                textAlign: TextAlign.start,
+              ),
+            )
 
           ]
         )

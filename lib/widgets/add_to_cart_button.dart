@@ -46,24 +46,30 @@ class _AddToCartButtonState extends State<AddToCartButton> {
     }*/
 
     return count == 0 ?
-    Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      elevation: 5,
-      child:  TextButton(
-          onPressed: () async {
-            setState(() {
-              _isLoading = true;
-              count++;
-            });
+    SizedBox(
+      width: 80,
+      height: 40,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+        elevation: 5,
+        child:  Center(
+          child: TextButton(
+              onPressed: () async {
+                setState(() {
+                  _isLoading = true;
+                  count++;
+                });
 
-            await shoppingCart.addItemTOShoppingCart(widget.productId, count);
+                await shoppingCart.addItemTOShoppingCart(widget.productId, count);
 
-            setState(() {
-              _isLoading = false;
-            });
-          },
-          child: Text("+")
-      ) ,
+                setState(() {
+                  _isLoading = false;
+                });
+              },
+              child: const Icon( Icons.add  , size: 20,)
+          ),
+        ) ,
+      ),
     )
         :Row(
       mainAxisAlignment: MainAxisAlignment.center,
