@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -31,7 +33,7 @@ class ShoppingCartProvider with ChangeNotifier
     {
         final String routeName = routes["add_shopping_cart"].toString();
 
-        print(routeName);
+
 
         try{
 
@@ -51,6 +53,34 @@ class ShoppingCartProvider with ChangeNotifier
             increaseTotalItems();
 
             notifyListeners();
+
+        } catch(error) {
+            rethrow;
+        }
+    }
+
+    Future<ShoppingCart> getShoppingCart() async
+    {
+        final String routeName = routes["get_shopping_cart"].toString();
+
+        try {
+
+            final Response response = await get( Uri.parse( routeName )  ,
+                headers:
+                {
+                    HttpHeaders.authorizationHeader : "" ,
+                    "SHOPPING-KEY" : "1zt51HyXUT1Da1lIxR7z1638291822672e4b43-d3dc-453f-a1a4-515b91"
+                }
+            );
+
+            if(response.statusCode != 200)
+            {
+                throw ServiceExtensionResponse.error(response.statusCode, "Error");
+            }
+
+            final body = jsonDecode(response.body)["data"];
+
+            return ShoppingCart.fillData(body);
 
         } catch(error) {
             rethrow;
