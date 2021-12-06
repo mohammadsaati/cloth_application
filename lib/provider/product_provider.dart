@@ -44,6 +44,7 @@ class ProductProvider with ChangeNotifier
 
             final body = jsonDecode( response.body )["data"];
 
+            print(body);
             List<ProductColor> colors = ProductColor.fill(loadedColors: body["colors"]);
 
             List<Size> sizes = Size.fill(loadedSize: body["sizes"]);
@@ -55,7 +56,7 @@ class ProductProvider with ChangeNotifier
                 name: body["name"],
                 description: body["description"],
                 slug: body["slug"],
-                category: "",
+                category: "category",
                 code: 0,
                 image: body["images"] ,
                 colors: colors ,

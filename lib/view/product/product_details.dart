@@ -9,6 +9,7 @@ import '../../models/products.dart';
 import '../../provider/product_provider.dart';
 import '../../config/app.dart';
 import '../../widgets/product/vendor_product.dart';
+import '../../widgets/app_bar_cart_item.dart';
 
 
 class ProductDetails extends StatefulWidget {
@@ -79,6 +80,9 @@ class _ProductDetailsState extends State<ProductDetails> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(appName) ,
+        actions: const [
+          AppBarCartIcon()
+        ],
       ),
       body: showSpinner ?  const Center(child: CircularProgressIndicator(),) :
 
@@ -102,7 +106,35 @@ class _ProductDetailsState extends State<ProductDetails> {
 
             const SizedBox(height: 10,) ,
 
-           Container(
+            Padding(
+              padding: const  EdgeInsets.symmetric(vertical: 0 , horizontal: 15) ,
+              child:  Text(
+                product.category ,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold ,
+                    fontSize: 12 ,
+                    color: Colors.grey
+                ),
+                maxLines: 2,
+              ) ,
+            ) ,
+
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 0 , horizontal: 15) ,
+                child: Text(
+                  product.name ,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold ,
+                      fontSize: 20
+                  ),
+                  maxLines: 2,
+                ) ,
+            ) ,
+
+            const SizedBox(height: 10,) ,
+
+
+            Container(
              height: 50,
              width: double.infinity,
              margin: const EdgeInsets.all(10),
