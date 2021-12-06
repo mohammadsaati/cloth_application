@@ -1,12 +1,12 @@
+import 'package:cloth_app/widgets/app_bar_cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../config/app.dart';
 import '../view/section/home_section.dart';
-import '../provider/product_provider.dart';
 import '../provider/home_provider.dart';
-import '../view/section/home_section.dart';
 import '../widgets/home_sliders.dart';
+import '../widgets/add_to_cart_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -51,6 +51,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(appName , style: TextStyle(fontSize: 20 , color: Colors.white),),
+        actions: const [
+          AppBarCartIcon()
+        ],
       ),
       body: _showSpinner ? const  Center( child: CircularProgressIndicator(), ) : SingleChildScrollView(
         child: Container(
