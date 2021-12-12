@@ -56,7 +56,7 @@ class ProductProvider with ChangeNotifier
                 name: body["name"],
                 description: body["description"],
                 slug: body["slug"],
-                category: "category",
+                category: body["category"],
                 code: 0,
                 image: body["images"] ,
                 colors: colors ,

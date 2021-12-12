@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './view/home.dart';
+import './view/shopping_cart_screen.dart';
 import './provider/product_provider.dart';
 import './provider/home_provider.dart';
 import './provider/shopping_cart_provider.dart';
+import './provider/calculation_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +23,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider( create: (_) => ProductProvider() ) ,
           ChangeNotifierProvider( create: (_) => HomeProvider() ) ,
           ChangeNotifierProvider(create: (_)  => ShoppingCartProvider()) ,
+          ChangeNotifierProvider(create: (_)  => CalculationProvider()) ,
         ] ,
       child: MaterialApp(
         title: 'Mohammad',
@@ -33,7 +36,8 @@ class MyApp extends StatelessWidget {
         home: const HomePage(),
 
         routes: {
-          HomePage.routeName          :     (ctx)   =>    const HomePage() ,
+          HomePage.routeName                                  : (ctx)   =>    const HomePage() ,
+          ShoppingCartScreen.screenRouteName                  : (ctx)   =>    const ShoppingCartScreen() ,
         },
       ),
     );

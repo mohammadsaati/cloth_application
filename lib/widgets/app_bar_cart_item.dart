@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../view/shopping_cart_screen.dart';
+
 class AppBarCartIcon extends StatefulWidget {
   const AppBarCartIcon({Key? key}) : super(key: key);
 
@@ -15,7 +17,7 @@ class _AppBarCartIconState extends State<AppBarCartIcon> {
       children: [
         IconButton(
             onPressed: () {
-
+                Navigator.pushNamed(context, ShoppingCartScreen.screenRouteName);
             },
             icon: const Icon(
               Icons.shopping_cart ,
