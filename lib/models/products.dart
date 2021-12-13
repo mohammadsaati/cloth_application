@@ -31,5 +31,26 @@ class Product
           this.vendors = const []
       });
 
+    static List<Product> fillSimilarProducts(loadedProducts)
+    {
+        List<Product> products = [];
 
+        for(var product in loadedProducts)
+        {
+            products.add(
+              Product(
+                  id: product["id"],
+                  name: product["name"],
+                  description: "",
+                  slug: product["slug"],
+                  category: product["category"],
+                  code: product["code"],
+                  image: product["image"]
+              )
+
+            );
+        }
+
+        return products;
+    }
 }

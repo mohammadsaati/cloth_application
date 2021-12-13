@@ -7,7 +7,7 @@ class Vendor
     final String lastName;
     final String phoneNumber;
     final String companyName;
-    final List<Item> items;
+    late List<Item> items;
 
     Vendor({
       required this.id ,
@@ -15,7 +15,7 @@ class Vendor
       required this.lastName ,
       required this.phoneNumber ,
       required this.companyName ,
-      required this.items
+      this.items = const  []
     });
 
     static List<Vendor> fill({required  loadedVendor})
@@ -24,9 +24,6 @@ class Vendor
 
         for(var vendor in loadedVendor)
         {
-           List<Item> item = Item.fillVendorItems(vendor["products"]);
-
-
 
             vendors.add(
                 Vendor(
@@ -35,7 +32,6 @@ class Vendor
                     lastName: vendor['last_name'],
                     phoneNumber: vendor['phone_number'],
                     companyName: vendor['company_name'],
-                    items: item
                 )
             );
         }

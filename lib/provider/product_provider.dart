@@ -14,10 +14,16 @@ import '../models/vendor.dart';
 class ProductProvider with ChangeNotifier
 {
     late List<Product> _product;
+    List<Product> _similarItems = [];
 
     List<Product> get product
     {
-        return [...product];
+        return [..._product];
+    }
+    
+    List<Product> get similarItems
+    {
+        return [..._similarItems];
     }
 
 
@@ -51,6 +57,10 @@ class ProductProvider with ChangeNotifier
 
             List<Vendor> vendors = Vendor.fill(loadedVendor: body["vendors"]);
 
+           _similarItems = Product.fillSimilarProducts( body["similar_items"] );
+            
+            notifyListeners();
+            
             return  Product(
                 id: body["id"],
                 name: body["name"],

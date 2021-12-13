@@ -7,6 +7,7 @@ import './provider/product_provider.dart';
 import './provider/home_provider.dart';
 import './provider/shopping_cart_provider.dart';
 import './provider/calculation_provider.dart';
+import './provider/vendor_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider( create: (_) => HomeProvider() ) ,
           ChangeNotifierProvider(create: (_)  => ShoppingCartProvider()) ,
           ChangeNotifierProvider(create: (_)  => CalculationProvider()) ,
+          ChangeNotifierProvider(create: (_)  => VendorProvider()) ,
         ] ,
       child: MaterialApp(
         title: 'Mohammad',

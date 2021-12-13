@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cloth_app/widgets/product/section_product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -27,6 +28,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool isInit = true;
   bool showSpinner = true;
   late Product product;
+  List<Product> _similars = [];
   dynamic _selectValue = "";
 
 
@@ -40,13 +42,16 @@ class _ProductDetailsState extends State<ProductDetails> {
           showSpinner = true;
         });
 
-        final  loadedProduct  =  await Provider.of<ProductProvider>(context).showProduct( slug: widget.productSlug );
+        final productProvider = Provider.of<ProductProvider>(context);
 
-        print(loadedProduct.image);
+        final  loadedProduct  =  await productProvider.showProduct( slug: widget.productSlug );
+
+
 
         setState(() {
           product = loadedProduct;
           _selectValue = product.sizes.isNotEmpty ? product.sizes[0].value : "";
+          _similars = productProvider.similarItems;
           showSpinner = false;
         });
 
@@ -212,10 +217,14 @@ class _ProductDetailsState extends State<ProductDetails> {
 
             const SizedBox(height: 10,) ,
 
-            Column(
-              children: product.vendors.map((vendor)  {
-                return VendorProduct(vendor: vendor,);
-              }).toList(),
+            Container(
+              width: double.infinity,
+              height: 200,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context , index) => VendorProduct(vendor: product.vendors[index], slug: product.slug,) ,
+                  itemCount: product.vendors.length,
+              ),
             ) ,
 
             const SizedBox(height: 20,) ,
@@ -244,7 +253,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
                 textAlign: TextAlign.start,
               ),
-            )
+            ) ,
+
+            _similars.isNotEmpty ? Container(
+                width: double.infinity,
+                height: 200,
+                padding: const EdgeInsets.all(10) ,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context , index) => Card( elevation: 8, child: SectionProduct(product: _similars[index]), ) ,
+                    itemCount: _similars.length,
+                )
+            ) :
+            Container()
 
           ]
         )

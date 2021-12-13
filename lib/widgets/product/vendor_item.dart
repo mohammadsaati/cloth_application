@@ -16,106 +16,109 @@ class VendorItem extends StatefulWidget {
 class _VendorItemState extends State<VendorItem> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        
-        /*
+    return Padding(
+        padding: const EdgeInsets.all(15) ,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            /*
           Show item color and size which is belongs to tha vendor
          */
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            // color
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-               const Text(
-                  "color : " ,
-                 style: TextStyle(
-                    fontWeight: FontWeight.bold
-                 ),
+                // color
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "color : " ,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold
+                      ),
+                    ) ,
+
+                    Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50) ,
+                          color: HexColor.fromHex( widget.item.color.code )
+                      ),
+                    )
+
+                  ],
                 ) ,
 
-                Container(
-                  width: 30,
-                  height: 30,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50) ,
-                      color: HexColor.fromHex( widget.item.color.code )
-                  ),
-                )
+                const SizedBox(width: 50,) ,
+
+                //size
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "size : " ,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold
+                      ),
+                    ) ,
+
+                    Text(
+                      widget.item.size ,
+                      style: const TextStyle(
+                          fontSize: 15
+                      ),
+                    ) ,
+
+                    const SizedBox(width: 50,) ,
+
+                    AddToCartButton(productId: widget.item.id , stock: widget.item.stock) ,
+
+                  ],
+                ) ,
 
               ],
+
             ) ,
 
-            const SizedBox(width: 50,) ,
 
-            //size
+            const SizedBox( height: 20, ) ,
+
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Text(
-                  "size : " ,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold
-                  ),
-                ) ,
-
-                 Text(
-                   widget.item.size ,
+                // Show that item price
+                Text(
+                  "stock : "+widget.item.stock.toString() ,
                   style: const TextStyle(
-                      fontSize: 15
+                      fontSize: 15 ,
+                      color: Colors.grey
                   ),
+
                 ) ,
 
-                const SizedBox(width: 40,) ,
+                const SizedBox(width: 50,) ,
 
-                AddToCartButton(productId: widget.item.id , stock: widget.item.stock) ,
+                //show stock
+                Text(
+                  widget.item.price.toString()+"\$" ,
+                  style: const TextStyle(
+                      fontSize: 15 ,
+                      color: Colors.grey
+                  ),
+
+                ) ,
 
               ],
-            ) ,
-            
-          ],
-          
-        ) , 
-
-
-        const SizedBox( height: 20, ) ,
-
-        Row(
-          children: [
-            // Show that item price
-            Text(
-              "stock : "+widget.item.stock.toString() ,
-              style: const TextStyle(
-                  fontSize: 15 ,
-                  color: Colors.grey
-              ),
-
-            ) ,
-
-            const SizedBox(width: 50,) ,
-
-            //show stock
-            Text(
-               widget.item.price.toString()+"\$" ,
-              style: const TextStyle(
-                  fontSize: 15 ,
-                  color: Colors.grey
-              ),
-
-            ) ,
+            )
 
           ],
-        )
-        
-      ],
-      
+
+        ),
     );
   }
 }
