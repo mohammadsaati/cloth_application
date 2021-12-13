@@ -10,3 +10,8 @@ const Map<String , String> routes = {
   "calculation"                           :          baseUrl+customerRouteName+currentVersion+"order/calculation" ,
   "home"                                  :          baseUrl+customerRouteName+currentVersion+"home"
 };
+
+String vendorItemsRoute({required String slug , required int vendorId})
+{
+  return baseUrl+customerRouteName+currentVersion+"product/"+slug+"/vendor/"+vendorId.toString();
+}

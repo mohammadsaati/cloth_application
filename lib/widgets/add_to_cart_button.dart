@@ -17,6 +17,8 @@ class AddToCartButton extends StatefulWidget {
 class _AddToCartButtonState extends State<AddToCartButton> {
 
   int count = 0;
+  bool added = false;
+
   @override
   Widget build(BuildContext context) {
 
@@ -45,118 +47,24 @@ class _AddToCartButtonState extends State<AddToCartButton> {
       );
     }*/
 
-    return count == 0 ?
-    SizedBox(
-      width: 80,
-      height: 40,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-        elevation: 5,
-        child:  Center(
-          child: TextButton(
-              onPressed: () async {
-                setState(() {
-                  _isLoading = true;
-                  count++;
-                });
+    return added ? const Icon(
+      Icons.assignment_turned_in_sharp ,
+      color: Colors.green,
+    ) :ElevatedButton(
+      onPressed: () async{
+        setState(() {
+          added = true;
+        });
 
-                await shoppingCart.addItemTOShoppingCart(widget.productId, count);
+        await shoppingCart.addItemTOShoppingCart(widget.productId, 1);
 
-                setState(() {
-                  _isLoading = false;
-                });
-              },
-              child: const Icon( Icons.add  , size: 20,)
-          ),
-        ) ,
+      },
+      child: const Text(
+        "Add" ,
+        style: TextStyle(
+            fontWeight: FontWeight.bold
+        ),
       ),
-    )
-        :Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-
-      children: [
-          count > 1 ?
-
-          TextButton(
-              onPressed: () async {
-
-                setState(() {
-                  _isLoading = true;
-                  count--;
-                });
-                print(count);
-               await shoppingCart.addItemTOShoppingCart(widget.productId, count);
-
-               setState(() {
-                  _isLoading = false;
-               });
-
-              },
-              child: IconButton(
-                onPressed: () {
-                  setState(() {
-                    count--;
-                  });
-                },
-                icon: const Icon(
-                    Icons.minimize_sharp ,
-                    color: Colors.red,
-                ),
-                
-              ) ,
-          ) :
-          IconButton(
-              onPressed: () async {
-                setState(() {
-                  _isLoading = true;
-                  count--;
-                });
-                print(count);
-                await shoppingCart.addItemTOShoppingCart(widget.productId, count);
-
-                setState(() {
-                  _isLoading = false;
-                });
-
-              },
-              icon: const Icon(Icons.delete) ,
-              color: Colors.red,
-
-          ) ,
-
-        const SizedBox(width: 5,) ,
-
-        _isLoading ? const Center( child: CircularProgressIndicator(), ) :Text(
-          count.toString() ,
-          style: const TextStyle(
-              fontWeight: FontWeight.bold
-          ),
-        ) ,
-
-
-        const SizedBox(width: 5,) ,
-
-        TextButton(
-            onPressed: () async {
-              setState(() {
-                _isLoading = true;
-                count++;
-              });
-
-              await shoppingCart.addItemTOShoppingCart(widget.productId, count);
-
-              setState(() {
-                _isLoading = false;
-              });
-            },
-            child: const Icon(
-              Icons.add_circle_outline_rounded ,
-
-            )
-        ) ,
-      ],
-
     );
   }
 }
