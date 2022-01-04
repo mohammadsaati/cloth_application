@@ -35,7 +35,7 @@ class ShoppingCartItem
                 ShoppingCartItem(
                     id: item["product_id"],
                     name: item["name"],
-                    color: ProductColor(name: item["color"]["name"] , code: item["color"]["code"]),
+                    color: ProductColor(id: item["color"]["id"] , name: item["color"]["name"] , code: item["color"]["code"]),
                     size: Size(value: item["size"]),
                     slug: item["slug"],
                     count: item["count"] ,

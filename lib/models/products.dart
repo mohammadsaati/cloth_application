@@ -12,6 +12,7 @@ class Product
     final String slug;
     final int code;
     final String category;
+    late int categoryId;
     final String image;
     List<ProductColor> colors;
     List<Size> sizes;
@@ -28,10 +29,11 @@ class Product
           required this.image ,
           this.colors =  const [] ,
           this.sizes = const  [] ,
-          this.vendors = const []
+          this.vendors = const [] ,
+          this.categoryId = 0
       });
 
-    static List<Product> fillSimilarProducts(loadedProducts)
+    static List<Product> fillProduct(loadedProducts)
     {
         List<Product> products = [];
 

@@ -57,7 +57,7 @@ class ProductProvider with ChangeNotifier
 
             List<Vendor> vendors = Vendor.fill(loadedVendor: body["vendors"]);
 
-           _similarItems = Product.fillSimilarProducts( body["similar_items"] );
+           _similarItems = Product.fillProduct( body["similar_items"] );
             
             notifyListeners();
             
@@ -67,6 +67,7 @@ class ProductProvider with ChangeNotifier
                 description: body["description"],
                 slug: body["slug"],
                 category: body["category"],
+                categoryId: body["category_id"],
                 code: 0,
                 image: body["images"] ,
                 colors: colors ,

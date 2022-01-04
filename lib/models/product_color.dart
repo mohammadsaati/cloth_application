@@ -1,9 +1,10 @@
 class ProductColor
 {
+    final int id;
     final String name;
     final String code;
 
-    ProductColor({ required this.name , required this.code});
+    ProductColor({ required this.id , required this.name , required this.code});
 
     static List<ProductColor> fill({required  loadedColors})
     {
@@ -12,7 +13,11 @@ class ProductColor
         for(var color in loadedColors)
         {
             colors.add(
-                ProductColor(name: color["name"], code: color["code"])
+                ProductColor(
+                    id: color["id"],
+                    name: color["name"],
+                    code: color["code"] ?? "#000"
+                )
             );
         }
 
