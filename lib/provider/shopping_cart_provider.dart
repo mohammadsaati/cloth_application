@@ -80,6 +80,7 @@ class ShoppingCartProvider with ChangeNotifier
 
             final body = jsonDecode(response.body)["data"];
 
+            print(body);
             return ShoppingCart.fillData(body);
 
         } catch(error) {

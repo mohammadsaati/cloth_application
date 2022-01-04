@@ -9,6 +9,8 @@ import './provider/shopping_cart_provider.dart';
 import './provider/calculation_provider.dart';
 import './provider/vendor_provider.dart';
 import './provider/search_provider.dart';
+import './provider/order_provider.dart';
+import './provider/customer_address_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,6 +30,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_)  => CalculationProvider()) ,
           ChangeNotifierProvider(create: (_)  => VendorProvider()) ,
           ChangeNotifierProvider(create: (_)  => SearchProvider()) ,
+          ChangeNotifierProvider(create: (_)  => OrderProvider()) ,
+          ChangeNotifierProvider(create: (_)  => CustomerAddressProvider()) ,
         ] ,
       child: MaterialApp(
         title: 'Mohammad',
