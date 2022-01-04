@@ -11,6 +11,7 @@ import '../../provider/product_provider.dart';
 import '../../config/app.dart';
 import '../../widgets/product/vendor_product.dart';
 import '../../widgets/app_bar_cart_item.dart';
+import '../../view/search_screen.dart';
 
 
 class ProductDetails extends StatefulWidget {
@@ -113,15 +114,23 @@ class _ProductDetailsState extends State<ProductDetails> {
 
             Padding(
               padding: const  EdgeInsets.symmetric(vertical: 0 , horizontal: 15) ,
-              child:  Text(
-                product.category ,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold ,
-                    fontSize: 12 ,
-                    color: Colors.grey
-                ),
-                maxLines: 2,
-              ) ,
+              child:  InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context ,
+                    MaterialPageRoute(builder: (context) => SearchScreen(categoriesId: [ product.categoryId ],) ) ,
+                  );
+                },
+                child: Text(
+                  product.category ,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold ,
+                      fontSize: 12 ,
+                      color: Colors.grey
+                  ),
+                  maxLines: 2,
+                ) ,
+              ),
             ) ,
 
             Padding(

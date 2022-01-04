@@ -24,19 +24,22 @@ class Item
     {
         List<Item> items = [];
 
-        for(var loadedItem in loadedItems)
+        if(loadedItems != null)
         {
+            for(var loadedItem in loadedItems)
+            {
 
 
-            items.add(
-                Item(
-                    id: loadedItem["id"],
-                    color:  ProductColor(name: loadedItem["color"]["color"], code: loadedItem["color"]["code"]),
-                    size: loadedItem["size"],
-                    price: loadedItem["current_price"] != null ? loadedItem["current_price"]["price"] : 0,
-                    stock: loadedItem["stock"]
-                )
-            );
+                items.add(
+                    Item(
+                        id: loadedItem["id"],
+                        color:  ProductColor(id: loadedItem["color"]["id"], name: loadedItem["color"]["color"], code: loadedItem["color"]["code"]),
+                        size: loadedItem["size"],
+                        price: loadedItem["current_price"] != null ? loadedItem["current_price"]["price"] : 0,
+                        stock: loadedItem["stock"]
+                    )
+                );
+            }
         }
 
 
