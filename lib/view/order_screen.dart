@@ -7,6 +7,7 @@ import '../models/order.dart';
 import '../provider/order_provider.dart';
 import '../widgets/drawer_widget.dart';
 
+import './order_detail_screen.dart';
 
 class OrderScreen extends StatefulWidget {
 
@@ -63,43 +64,49 @@ class _OrderScreenState extends State<OrderScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: orders.map((order) {
-              return Container(
+              return InkWell(
+                onTap: () async {
+                    Navigator.of(context).pushNamed(OrderDetailScreen.routeName , arguments: order.id);
+                    // await Provider.of<OrderProvider>(context , listen: false).getOrderDetails(12);
+                },
+                child: Container(
                   width: double.infinity,
                   height: 150,
                   padding: const EdgeInsets.all(10) ,
-                child: Card(
-                  elevation: 10,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "amount : "+order.amount.toString() ,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold
-                          ),
-                        ) ,
+                  child: Card(
+                    elevation: 10,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "amount : "+order.amount.toString() ,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold
+                            ),
+                          ) ,
 
-                        const SizedBox(height: 10,) ,
+                          const SizedBox(height: 10,) ,
 
-                        Text(
-                          "off price : "+order.offPrice.toString() ,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold
-                          ),
-                        ) ,
+                          Text(
+                            "off price : "+order.offPrice.toString() ,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold
+                            ),
+                          ) ,
 
-                        const SizedBox(height: 10,) ,
-                        Text(
-                          "address : "+order.address ,
-                          style: const TextStyle(
-                              fontSize: 13 ,
-                              color: Colors.grey
-                          ),
-                        ) ,
-                      ],
+                          const SizedBox(height: 10,) ,
+                          Text(
+                            "address : "+order.address ,
+                            style: const TextStyle(
+                                fontSize: 13 ,
+                                color: Colors.grey
+                            ),
+                          ) ,
+                        ],
+                      ),
                     ),
                   ),
                 ),

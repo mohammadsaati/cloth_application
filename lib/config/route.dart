@@ -20,3 +20,8 @@ String vendorItemsRoute({required String slug , required int vendorId})
 {
   return baseUrl+customerRouteName+currentVersion+"product/"+slug+"/vendor/"+vendorId.toString();
 }
+
+String orderDetailRoute( int orderId )
+{
+    return baseUrl+customerRouteName+currentVersion+"order/show/"+orderId.toString();
+}

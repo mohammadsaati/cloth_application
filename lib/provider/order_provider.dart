@@ -6,6 +6,8 @@ import 'package:http/http.dart';
 
 import '../config/route.dart';
 import '../models/order.dart';
+import '../models/order_item.dart';
+import '../config/web_service.dart';
 
 class OrderProvider with ChangeNotifier {
 
@@ -37,6 +39,17 @@ class OrderProvider with ChangeNotifier {
         rethrow;
       }
   }
+
+  Future<List<OrderItem>> getOrderDetails( int orderId ) async
+  {
+      final String route = orderDetailRoute(orderId);
+
+      final Response response = await sendGetRequest(url: route);
+
+      return OrderItem.fillOrderItem( jsonDecode( response.body )["data"] );
+
+  }
+
 
   Future<void> getOrderList() async {
 

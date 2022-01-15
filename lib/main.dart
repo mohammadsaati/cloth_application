@@ -13,6 +13,8 @@ import './provider/search_provider.dart';
 import './provider/order_provider.dart';
 import './provider/customer_address_provider.dart';
 
+import './view/order_detail_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -48,6 +50,7 @@ class MyApp extends StatelessWidget {
           HomePage.routeName                                  : (ctx)   =>    const HomePage() ,
           ShoppingCartScreen.screenRouteName                  : (ctx)   =>    const ShoppingCartScreen() ,
           OrderScreen.routeName                               : (ctx)   =>    const OrderScreen() ,
+          OrderDetailScreen.routeName                               : (ctx)   =>    const OrderDetailScreen() ,
         },
       ),
     );
