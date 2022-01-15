@@ -7,6 +7,7 @@ import '../view/section/home_section.dart';
 import '../provider/home_provider.dart';
 import '../widgets/home_sliders.dart';
 import '../widgets/add_to_cart_button.dart';
+import '../widgets/drawer_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -98,6 +99,7 @@ class _HomePageState extends State<HomePage> {
 
         ),
       ) ,
+      drawer: DrawerWidget(),
     );
   }
 }

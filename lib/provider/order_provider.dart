@@ -1,12 +1,21 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 import '../config/route.dart';
+import '../models/order.dart';
+import '../models/order_item.dart';
+import '../config/web_service.dart';
 
 class OrderProvider with ChangeNotifier {
 
+  List<Order> _orders = [];
+
+  List<Order> get orders {
+    return [..._orders];
+  }
 
   Future<void> submitOrder(String addressId) async
   {
@@ -30,5 +39,40 @@ class OrderProvider with ChangeNotifier {
         rethrow;
       }
   }
+
+  Future<List<OrderItem>> getOrderDetails( int orderId ) async
+  {
+      final String route = orderDetailRoute(orderId);
+
+      final Response response = await sendGetRequest(url: route);
+
+      return OrderItem.fillOrderItem( jsonDecode( response.body )["data"] );
+
+  }
+
+
+  Future<void> getOrderList() async {
+
+    try {
+
+      final Response response = await get( Uri.parse( routes["order_list"].toString() )  ,
+        headers: {
+          HttpHeaders.authorizationHeader : "XmmfGkBKjhcjKx7sgQbm1637684319eafffcb7-c33f-43d0-a57a-465a9f" ,
+
+        } ,
+      );
+
+      final body = jsonDecode( response.body )["data"];
+
+      _orders = Order.fillOrders( body );
+
+      notifyListeners();
+
+    } catch(error) {
+      rethrow;
+    }
+
+  }
+
 
 }
