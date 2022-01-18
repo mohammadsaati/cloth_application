@@ -35,7 +35,7 @@ class DrawerWidget extends StatelessWidget {
 
             InkWell(
               onTap: () {
-                Navigator.pushNamed(context, HomePage.routeName);
+                Navigator.pushReplacementNamed(context, HomePage.routeName);
               },
               child: Padding(
                 padding: const EdgeInsets.all(10),

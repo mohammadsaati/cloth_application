@@ -14,6 +14,8 @@ const Map<String , String> routes = {
   "order_submit"                          :          baseUrl+customerRouteName+currentVersion+"order/submit" ,
   "order_list"                            :          baseUrl+customerRouteName+currentVersion+"order" ,
   "customer_address"                      :          baseUrl+customerRouteName+currentVersion+"address" ,
+  "resend_code"                           :          baseUrl+customerRouteName+"resend-code" ,
+  "customer_login"                        :          baseUrl+customerRouteName+"login" ,
 };
 
 String vendorItemsRoute({required String slug , required int vendorId})
