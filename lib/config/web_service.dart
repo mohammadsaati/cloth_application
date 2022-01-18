@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'package:http/http.dart';
 
 const  String baseUrl = "http://192.168.1.110:800/";
+const String loginImage = baseUrl+"storage/login-logo.png";
+const String splashImage = baseUrl+"storage/splash.png";
 
 Future<Response> sendGetRequest({ required String url }) async
 {
@@ -35,10 +37,19 @@ Future<Response> sendPostRequest({ required String url ,  Map<String , String> g
 
       final Response response = await post( Uri.parse(url) ,
         headers: {
-          "Authorization" : "XmmfGkBKjhcjKx7sgQbm1637684319eafffcb7-c33f-43d0-a57a-465a9f"
+          "Content-Type" : "application/json" ,
+          // "Authorization" : "XmmfGkBKjhcjKx7sgQbm1637684319eafffcb7-c33f-43d0-a57a-465a9f"
         } ,
         body: data
       );
+
+      print(response.statusCode);
+      print(data);
+
+      if(response.statusCode != 200)
+      {
+          throw ServiceExtensionResponse.error(response.statusCode, jsonDecode( response.body )["message"] );
+      }
 
       return response;
 

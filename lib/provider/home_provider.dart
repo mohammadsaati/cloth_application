@@ -28,6 +28,8 @@ class HomeProvider with ChangeNotifier
 
     Future<void> getHomeData() async
     {
+        _sections = [];
+        notifyListeners();
         const String path = "customer/v1/home";
         try {
             Response response = await get(
