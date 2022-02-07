@@ -8,30 +8,20 @@ import 'package:http/http.dart';
 
 import '../models/calculation.dart';
 import '../config/route.dart';
+import '../config/web_service.dart';
+import '../config/post_request.dart';
 
 class CalculationProvider with ChangeNotifier
 {
     Future<Calculation> getCalculation() async
     {
-        try {
+      final route = routes["calculation"].toString();
 
-          final routeName = routes["calculation"].toString();
+      final Response response = await sendRequest(requestInterFace: PostRequest(), url: route);
 
-          final Response response = await post( Uri.parse( routeName ) ,
+      final body = jsonDecode(response.body)["data"];
 
-            headers: {
-              HttpHeaders.authorizationHeader : "" ,
-              "SHOPPING-KEY" : "1zt51HyXUT1Da1lIxR7z1638291822672e4b43-d3dc-453f-a1a4-515b91"
-            },
+      return Calculation(price: body["price"]);
 
-          );
-
-          final body = jsonDecode(response.body)["data"];
-
-          return Calculation(price: body["price"]);
-
-        } catch(error) {
-          rethrow;
-        }
     }
 }

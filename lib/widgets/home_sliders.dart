@@ -33,6 +33,11 @@ class HomeSliders extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
                       imageSlider.image ,
+                      loadingBuilder: (context , child , progress) => progress == null ? child : Container(
+                        width: double.infinity,
+                        height: 200,
+                        child: const Center(child: CircularProgressIndicator(),),
+                      ),
                       fit: BoxFit.cover,
 
                     )

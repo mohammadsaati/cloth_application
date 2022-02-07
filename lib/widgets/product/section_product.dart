@@ -29,6 +29,7 @@ class SectionProduct extends StatelessWidget {
               width: 80,
               height: 95,
               fit: BoxFit.cover,
+              loadingBuilder: (context , child , progress ) => progress == null ? child : const SizedBox( height: 95, width: 80, child: Center( child: Icon(Icons.image))) ,
               errorBuilder: (context , url , error) => const SizedBox( height: 95, width: 80, child: Center( child: Icon(Icons.image), ),
               ),
             ) ,

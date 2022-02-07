@@ -8,6 +8,8 @@ import '../config/web_service.dart';
 import '../models/section.dart';
 import '../models/slider.dart';
 import '../models/products.dart';
+import '../config/route.dart';
+import '../config/get_request.dart';
 
 class HomeProvider with ChangeNotifier
 {
@@ -30,65 +32,45 @@ class HomeProvider with ChangeNotifier
     {
         _sections = [];
         notifyListeners();
-        const String path = "customer/v1/home";
-        try {
-            Response response = await get(
-                Uri.parse( baseUrl+ path)  ,
-                headers: {
-                    HttpHeaders.contentTypeHeader : "application/json" ,
-                    }
-                );
+        String route = routes["home"].toString();
 
-           /* if(response.statusCode == 500)
+        final Response response = await sendRequest(requestInterFace: GetRequest(), url: route);
+
+        final body = jsonDecode( response.body );
+
+        for(final sectionData in body["data"]["sections"])
+        {
+            List<Product> sectionProducts = [];
+
+            for(final sectionProduct in sectionData["items"])
             {
-                throw ClientException("server error");
-            }*/
-
-            final body = jsonDecode( response.body );
-
-
-
-            for(final sectionData in body["data"]["sections"])
-            {
-                List<Product> sectionProducts = [];
-
-                for(final sectionProduct in sectionData["items"])
-                {
-                    sectionProducts.add(
-                        Product(
-                            id: sectionProduct["id"] ,
-                            slug: sectionProduct["slug"] ,
-                            image: sectionProduct["image"] ,
-                            category: sectionProduct["category"] ,
-                            code: sectionProduct["code"] ,
-                            description: "" ,
-                            name: sectionProduct["name"]
-                        )
-                    );
-                }
-
-
-                _sections.add(
-                     Section(
-                         sectionData["name"],
-                         sectionData["slug"],
-                         sectionProducts,
-                     )
+                sectionProducts.add(
+                    Product(
+                        id: sectionProduct["id"] ,
+                        slug: sectionProduct["slug"] ,
+                        image: sectionProduct["image"] ,
+                        category: sectionProduct["category"] ,
+                        code: sectionProduct["code"] ,
+                        description: "" ,
+                        name: sectionProduct["name"]
+                    )
                 );
             }
 
-            _sliders = ImageSlider.fillHomeSliders(body["data"]["sliders"]);
 
-            notifyListeners();
-
-            
-
-
-
-
-        } catch(error) {
-            rethrow;
+            _sections.add(
+                Section(
+                    sectionData["name"],
+                    sectionData["slug"],
+                    sectionProducts,
+                )
+            );
         }
+
+        _sliders = ImageSlider.fillHomeSliders(body["data"]["sliders"]);
+
+        notifyListeners();
+
     }
 
 

@@ -1,59 +1,14 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:http/http.dart';
 
-const  String baseUrl = "http://192.168.1.110:800/";
+
+import '../interfaces/request_interface.dart';
+
+const  String baseUrl = "http://192.168.1.104:800/";
 const String loginImage = baseUrl+"storage/login-logo.png";
 const String splashImage = baseUrl+"storage/splash.png";
 
-Future<Response> sendGetRequest({ required String url }) async
+
+Future<Response> sendRequest( { required RequestInterFace requestInterFace , required String url , Map<String , String> givenData = const  {} } )  async
 {
-    try {
-
-      final Response response = await get( Uri.parse( url ) ,
-        headers: {
-            "Authorization" : "XmmfGkBKjhcjKx7sgQbm1637684319eafffcb7-c33f-43d0-a57a-465a9f"
-        }
-      );
-
-      if(response.statusCode != 200)
-      {
-          throw ServiceExtensionResponse.error(response.statusCode, jsonDecode( response.body )["message"] );
-      }
-
-      return response;
-
-    } catch(error) {
-      rethrow;
-    }
-}
-
-
-Future<Response> sendPostRequest({ required String url ,  Map<String , String> givenData = const  {} }) async
-{
-    try {
-      final data = jsonEncode( givenData );
-
-      final Response response = await post( Uri.parse(url) ,
-        headers: {
-          "Content-Type" : "application/json" ,
-          // "Authorization" : "XmmfGkBKjhcjKx7sgQbm1637684319eafffcb7-c33f-43d0-a57a-465a9f"
-        } ,
-        body: data
-      );
-
-      print(response.statusCode);
-      print(data);
-
-      if(response.statusCode != 200)
-      {
-          throw ServiceExtensionResponse.error(response.statusCode, jsonDecode( response.body )["message"] );
-      }
-
-      return response;
-
-    } catch(error) {
-      rethrow;
-    }
+    return requestInterFace.sendRequest(url: url , givenData: givenData);
 }

@@ -6,6 +6,8 @@ import 'package:http/http.dart';
 
 import '../models/customer_address.dart';
 import '../config/route.dart';
+import '../config/web_service.dart';
+import '../config/get_request.dart';
 
 class CustomerAddressProvider with ChangeNotifier {
 
@@ -16,23 +18,18 @@ class CustomerAddressProvider with ChangeNotifier {
   }
 
   Future<void> getAddress() async {
-    try {
 
-      final Response response = await get( Uri.parse( routes["customer_address"].toString() )  ,
-        headers: {
-          HttpHeaders.authorizationHeader : "XmmfGkBKjhcjKx7sgQbm1637684319eafffcb7-c33f-43d0-a57a-465a9f" ,
-        }
-      );
+    final String route = routes["customer_address"].toString();
 
-      final body = jsonDecode( response.body )["data"];
+    final Response response = await sendRequest(requestInterFace: GetRequest(), url: route);
 
-      _addresses = CustomerAddress.fillAddress( body );
 
-      notifyListeners();
+    final body = jsonDecode( response.body )["data"];
 
-    } catch(error) {
-      rethrow;
-    }
+    _addresses = CustomerAddress.fillAddress( body );
+
+    notifyListeners();
+
   }
 
 }

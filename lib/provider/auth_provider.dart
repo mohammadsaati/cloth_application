@@ -1,12 +1,14 @@
 import 'dart:convert';
-import 'dart:developer';
 
+
+import 'package:cloth_app/config/post_request.dart';
 import 'package:cloth_app/config/web_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/route.dart';
+import '../config/get_request.dart';
 
 class AuthProvider with ChangeNotifier{
 
@@ -26,44 +28,29 @@ class AuthProvider with ChangeNotifier{
   }
 
 
-  Future<String> getTokenFromServer() async {
+  Future<String> getTokenFromServer() async
+  {
 
-    try {
-      String apiKey = "";
+    String route = routes["splash"].toString();
+    String apiKey = "";
 
-      final String localToken = await getTokenFormSharedPreferences();
+    final Response response = await sendRequest(requestInterFace: GetRequest(), url: route);
 
-      final Response response = await get( Uri.parse( routes["splash"].toString() ) ,
-          headers: {
-                "Authorization" : localToken
-          }
-      );
+    final body = jsonDecode(response.body)["data"];
 
-      print(response.statusCode);
+    print(body);
 
-      if( response.statusCode != 200 ) {
-        throw ServiceExtensionResponse.error(response.statusCode,  jsonDecode( response.body )["message"] );
-      }
+    if(body["customer_info"] != "") {
 
-      final body = jsonDecode( response.body )["data"];
+      apiKey = body["customer_info"]["api_key"];
 
-      print(body);
+    } else {
 
-      if(body["customer_info"] != "") {
+      apiKey = "";
 
-        apiKey = body["customer_info"]["api_key"];
-
-      } else {
-
-        apiKey = "";
-
-      }
-
-      return apiKey;
-
-    } catch(error) {
-      rethrow;
     }
+
+    return apiKey;
 
   }
 
@@ -99,7 +86,7 @@ class AuthProvider with ChangeNotifier{
   {
       final route = routes["resend_code"].toString();
 
-      final Response response  = await sendPostRequest(url: route , givenData: { "phone_number" : phoneNumber });
+      final Response response  = await sendRequest(requestInterFace: PostRequest(), url: route , givenData: { "phone_number" : phoneNumber });
 
       print(response.body);
   }
@@ -114,7 +101,7 @@ class AuthProvider with ChangeNotifier{
         "password" : password
       };
 
-      final Response response = await sendPostRequest(url: route , givenData: data);
+      final Response response = await sendRequest(requestInterFace: PostRequest(), url: route , givenData: data);
 
       final body = jsonDecode( response.body )["customer"];
 

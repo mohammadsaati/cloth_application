@@ -8,6 +8,8 @@ import '../config/route.dart';
 import '../models/order.dart';
 import '../models/order_item.dart';
 import '../config/web_service.dart';
+import '../config/get_request.dart';
+import '../config/post_request.dart';
 
 class OrderProvider with ChangeNotifier {
 
@@ -19,32 +21,23 @@ class OrderProvider with ChangeNotifier {
 
   Future<void> submitOrder(String addressId) async
   {
-      try {
+    final sendData = {
+      "address_id" : addressId
+    };
+    final String route = routes["order_submit"].toString();
 
-        Response response = await post(  Uri.parse( routes["order_submit"].toString() ) ,
-          headers: {
-            HttpHeaders.authorizationHeader : "" ,
-            "SHOPPING-KEY" : "1zt51HyXUT1Da1lIxR7z1638291822672e4b43-d3dc-453f-a1a4-515b91"
-          } ,
-          body:  {
-              "address_id" : addressId
-          }
+    final Response response = await sendRequest(requestInterFace: PostRequest(), url: route , givenData: sendData);
 
-        );
+    print("************************* Order submit Status Code ********************");
+    print(response.statusCode);
 
-        print("************************* Order submit Status Code ********************");
-        print(response.statusCode);
-
-      } catch (error) {
-        rethrow;
-      }
   }
 
   Future<List<OrderItem>> getOrderDetails( int orderId ) async
   {
       final String route = orderDetailRoute(orderId);
 
-      final Response response = await sendGetRequest(url: route);
+      final Response response = await sendRequest(requestInterFace: GetRequest() , url: route);
 
       return OrderItem.fillOrderItem( jsonDecode( response.body )["data"] );
 
@@ -53,24 +46,13 @@ class OrderProvider with ChangeNotifier {
 
   Future<void> getOrderList() async {
 
-    try {
+    final String  route = routes["order_list"].toString();
 
-      final Response response = await get( Uri.parse( routes["order_list"].toString() )  ,
-        headers: {
-          HttpHeaders.authorizationHeader : "XmmfGkBKjhcjKx7sgQbm1637684319eafffcb7-c33f-43d0-a57a-465a9f" ,
+    final Response response = await sendRequest(requestInterFace: GetRequest() , url: route);
 
-        } ,
-      );
+    final body = jsonDecode( response.body )["data"];
 
-      final body = jsonDecode( response.body )["data"];
-
-      _orders = Order.fillOrders( body );
-
-      notifyListeners();
-
-    } catch(error) {
-      rethrow;
-    }
+    _orders = Order.fillOrders( body );
 
   }
 
