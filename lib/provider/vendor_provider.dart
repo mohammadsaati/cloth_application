@@ -6,6 +6,8 @@ import 'package:http/http.dart';
 
 import '../models/item.dart';
 import '../config/route.dart';
+import '../config/web_service.dart';
+import '../config/get_request.dart';
 
 class VendorProvider with ChangeNotifier
 {
@@ -19,21 +21,13 @@ class VendorProvider with ChangeNotifier
     Future<List<Item>> getVendorItems({required String slug , required int vendorId}) async
     {
 
-       try {
+      String route = vendorItemsRoute(slug: slug, vendorId: vendorId);
 
-         final Response response = await get( Uri.parse( vendorItemsRoute(slug: slug, vendorId: vendorId) ) );
+      final Response response = await sendRequest(requestInterFace: GetRequest(), url: route);
 
-         if(response.statusCode != 200)
-         {
-            throw ServiceExtensionResponse.error(response.statusCode, "some error");
-         }
+      final body = jsonDecode(response.body)["data"];
 
-         final body = jsonDecode(response.body)["data"];
+      return Item.fillVendorItems( body );
 
-         return Item.fillVendorItems( body );
-
-       } catch(error) {
-         rethrow;
-       }
     }
 }

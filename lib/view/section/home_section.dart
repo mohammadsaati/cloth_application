@@ -19,20 +19,31 @@ class HomeSection extends StatelessWidget {
       child: Card(
         shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10) ),
         elevation: 4,
-        child: Padding(
-          padding: const EdgeInsets.all(5) ,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children:  [
-              Text(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children:  [
+            Container(
+              width: 120,
+              height: 30,
+              padding: const EdgeInsets.all(5),
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10)) ,
+                  color: Colors.redAccent
+              ),
+              child: Text(
                 section.title ,
-                textAlign: TextAlign.right,
+                style: const TextStyle(
+                    color: Colors.white ,
+                    fontWeight: FontWeight.bold
+                ),
+                textAlign: TextAlign.start,
               ) ,
+            ),
 
-              const SizedBox(height: 10,) ,
+            const SizedBox(height: 10,) ,
 
-              section.product.isNotEmpty ? Container(
+            section.product.isNotEmpty ? Container(
                 width: double.infinity,
                 height: 180,
                 child: ListView.builder(
@@ -40,19 +51,18 @@ class HomeSection extends StatelessWidget {
                   itemBuilder:  (ctx , product) => SectionProduct(product: section.product[product]),
                   itemCount: section.product.length ,
                 )
-              ): const Text(
-                "no product" ,
-                style: TextStyle(
-                    fontFamily: "IRANSans"
-                ),
-                textAlign: TextAlign.center,
-              ) ,
+            ): const Text(
+              "no product" ,
+              style: TextStyle(
+                  fontFamily: "IRANSans"
+              ),
+              textAlign: TextAlign.center,
+            ) ,
 
-              const SizedBox(height: 3,) ,
+            const SizedBox(height: 3,) ,
 
-              
-            ],
-          ),
+
+          ],
         ),
       ),
     );

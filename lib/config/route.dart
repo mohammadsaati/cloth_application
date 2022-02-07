@@ -27,3 +27,8 @@ String orderDetailRoute( int orderId )
 {
     return baseUrl+customerRouteName+currentVersion+"order/show/"+orderId.toString();
 }
+
+String showProductRoute( { required String slug , String size = "" , String color = "" } )
+{
+  return baseUrl+customerRouteName+currentVersion+slug+"?color=$color&size=$size";
+}

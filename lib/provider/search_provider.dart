@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloth_app/config/post_request.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
@@ -11,6 +12,8 @@ import '../models/product_color.dart';
 import '../models/size.dart';
 
 import '../config/route.dart';
+import '../config/web_service.dart';
+import '../config/get_request.dart';
 
 class SearchProvider with ChangeNotifier
 {
@@ -58,48 +61,26 @@ class SearchProvider with ChangeNotifier
 
     Future<void> searchProduct({ List<int> categoryIds = const [] , List<int> colorIds = const [] }) async
     {
-        final data = jsonEncode({
-            "category_ids"      :   categoryIds ,
-            "color_ids"         :   colorIds
-        });
+        final data = {
+            "category_ids"      :   categoryIds.toString() ,
+            "color_ids"         :   colorIds.toString()
+        };
 
+        String route = routes["search"].toString();
+
+        final Response response = await sendRequest(requestInterFace: PostRequest(), url: route , givenData: data);
+
+        final body = jsonDecode( response.body )["data"];
 
         print(data);
 
-        try {
+        _products = Product.fillProduct( body["items"] );
+        _productColors = ProductColor.fill(loadedColors: body["colors"]);
+        _productSizes = Size.fill(loadedSize: body["sizes"]);
+        _categories = Category.fillCategories( body["categories"] );
+        _subCategories = Category.fillCategories( body["sub_categories"] );
 
-            final Response response = await post( Uri.parse( routes["search"].toString() )  ,
-                headers: {
-                    HttpHeaders.authorizationHeader : "" ,
-                    "Content-Type" : "application/json" ,
-                    "SHOPPING-KEY" : "1zt51HyXUT1Da1lIxR7z1638291822672e4b43-d3dc-453f-a1a4-515b91"
-                } ,
-
-                body: data
-
-            );
-
-            if(response.statusCode != 200)
-            {
-                throw ServiceExtensionResponse.error(response.statusCode, "some error occurred");
-            }
-            
-            final body = jsonDecode( response.body )["data"];
-
-
-            //filling  data
-
-            _products = Product.fillProduct( body["items"] );
-            _productColors = ProductColor.fill(loadedColors: body["colors"]);
-            _productSizes = Size.fill(loadedSize: body["sizes"]);
-            _categories = Category.fillCategories( body["categories"] );
-            _subCategories = Category.fillCategories( body["sub_categories"] );
-
-            notifyListeners();
-
-        } catch (error) {
-            rethrow;
-        }
+        notifyListeners();
     }
 
 

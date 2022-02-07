@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -10,6 +8,8 @@ import '../config/web_service.dart';
 import '../models/product_color.dart';
 import '../models/size.dart';
 import '../models/vendor.dart';
+import '../config/route.dart';
+import '../config/get_request.dart';
 
 class ProductProvider with ChangeNotifier
 {
@@ -27,66 +27,42 @@ class ProductProvider with ChangeNotifier
     }
 
 
-    Future<void> showProduct2({required String  slug, String size = "" , String color = ""}) async
-    {
-            print("");
-    }
 
 
     Future<Product> showProduct({required String  slug, String size = "" , String color = ""}) async
     {
-        try{
+        String route = showProductRoute(slug: slug , size: size , color: color);
 
-            Response response = await get(
-                Uri.parse(baseUrl+"customer/v1/product/$slug?color=$color&size=$size") ,
-                headers: { HttpHeaders.contentTypeHeader : "application/json" }
-            );
+        final Response response = await sendRequest(requestInterFace: GetRequest(), url: route);
 
+        final body = jsonDecode( response.body )["data"];
 
-            if(response.statusCode != 200)
-            {
-                throw ServiceExtensionResponse.error(response.statusCode, jsonDecode(response.body)["title"] );
-            }
+        print(body);
 
-            final body = jsonDecode( response.body )["data"];
+        List<ProductColor> colors = ProductColor.fill(loadedColors: body["colors"]);
 
-            print(body);
-            List<ProductColor> colors = ProductColor.fill(loadedColors: body["colors"]);
+        List<Size> sizes = Size.fill(loadedSize: body["sizes"]);
 
-            List<Size> sizes = Size.fill(loadedSize: body["sizes"]);
+        List<Vendor> vendors = Vendor.fill(loadedVendor: body["vendors"]);
 
-            List<Vendor> vendors = Vendor.fill(loadedVendor: body["vendors"]);
+        _similarItems = Product.fillProduct( body["similar_items"] );
 
-           _similarItems = Product.fillProduct( body["similar_items"] );
-            
-            notifyListeners();
-            
-            return  Product(
-                id: body["id"],
-                name: body["name"],
-                description: body["description"],
-                slug: body["slug"],
-                category: body["category"],
-                categoryId: body["category_id"],
-                code: 0,
-                image: body["images"] ,
-                colors: colors ,
-                sizes: sizes ,
-                vendors: vendors
-            );
+        notifyListeners();
 
-        }
-        catch(error) {
-            rethrow;
-        }
+        return  Product(
+            id: body["id"],
+            name: body["name"],
+            description: body["description"],
+            slug: body["slug"],
+            category: body["category"],
+            categoryId: body["category_id"],
+            code: 0,
+            image: body["images"] ,
+            colors: colors ,
+            sizes: sizes ,
+            vendors: vendors
+        );
     }
 
-
-    Future<void> getHomeProducts() async
-    {
-        Response response = await get( Uri.parse(baseUrl+"customer/v1/home") , headers: { HttpHeaders.contentTypeHeader : "application/json" } );
-
-        print(response.body);
-    }
 
 }
